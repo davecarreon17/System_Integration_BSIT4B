@@ -1,6 +1,6 @@
 <template>
  <v-container>
- <v-card v-if="user" class="pa-6">
+ <v-card v-if="user" class="pa-6" width="400">
  <div class="d-flex align-center ga-4">
  <v-avatar size="64">
  <v-img :src="user.picture" />

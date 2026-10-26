@@ -3,9 +3,10 @@
     <v-card>
       <v-card-text>
       <!-- Show QR Scanner  -->
-      <video class="qr-video"></video>
+      <video ref="videoRef" class="qr-video"></video>
         <!-- Start Scanner -->
-          <v-btn color="green" block> Start Scanner</v-btn>
+          <v-btn color="green" @click="startScanner" block > Start Scanner</v-btn>
+          
          
         <!-- Stop Scanner -->
           <v-btn color="red" class="mt-5" block> StopScanner</v-btn>
@@ -15,7 +16,32 @@
 </template>
 
 <script lang="ts" setup>
+  //@ts-nocheck
+  import QrScanner from 'qr-scanner'
 
+  const videoRef = ref<HTMLVideoElement | null>(null)
+  //const result =ref ('')
+  let scanner: QrScanner | null = null
+
+  const startScanner = async () => {
+  if(!videoRef.value) return
+
+  scanner = new QrScanner(
+    videoRef.value,
+    (scanResult) => {
+      //result.value =scanresult.data
+      //emit('scanned', scanResult.data)
+      //optional: stop after successful scan
+      scanner?.stop()
+    },
+    {
+      preferredCamera: 'environment',
+      highlightScanRegion: true,
+      highlightCodeOutline: true,
+    } 
+  )
+  await scanner.start()
+}
 </script>
 
 <style scoped>
